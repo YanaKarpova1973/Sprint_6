@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 class MainPageLocators:
 
-    QUESTION_LOCATOR = By.ID, 'accordion__heading-{}'   #//div[@class='accordion__heading']//div
+    QUESTION_LOCATOR = By.ID, 'accordion__heading-{}'
     ANSWER_LOCATOR = By.ID, 'accordion__panel-{}'
     ORDER_ON_PAGE = By.XPATH, '//div[@class="Home_FinishButton__1_cWm"]//button[1]'
     ORDER_IN_THE_CORNER = By.CLASS_NAME, 'Button_Button__ra12g'

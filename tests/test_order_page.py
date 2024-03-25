@@ -1,7 +1,7 @@
-import allure
 from pages.order_page import OrderPage
 from locators.order_page_locators import OrderPageLocators
-from conftest import *
+import pytest
+import allure
 
 class TestOrderPage:
 
@@ -12,17 +12,20 @@ class TestOrderPage:
                                  ('Вася', 'Пупкин', 'Московская ', 'Комсомольская', '+79167654321', '')
                              ]
     )
-    @allure.description('Заполнение заказа, проверка появления всплывающего окна "Заказ оформлен"')
+    @allure.title('Заполнение заказа, проверка появления всплывающего окна "Заказ оформлен"')
     def test_set_order(self, driver, name, last_name, address, station, phone, comment):
         general_page = OrderPage(driver)
         general_page.click_element(OrderPageLocators.ORDER_BUTTON)
-        general_page.set_order(name, OrderPageLocators.FIRST_NAME, last_name,
-                               OrderPageLocators.LAST_NAME, address, OrderPageLocators.ADDRESS,
-                               OrderPageLocators.METRO, station, OrderPageLocators.CHOSEN_STATION,
-                               phone, OrderPageLocators.PHONE, OrderPageLocators.DATE_CHOICE,
-                               OrderPageLocators.DATE_CHOSEN, OrderPageLocators.RENT_PERIOD, OrderPageLocators.TWO_DAYS,
-                               OrderPageLocators.BLACK_PERL, OrderPageLocators.COMMENT, comment,
-                               OrderPageLocators.ORDER_NEXT)
-        general_page.click_element(OrderPageLocators.MAKE_ORDER)
-        general_page.click_element(OrderPageLocators.ORDER_YES)
-        assert 'Заказ оформлен' in general_page.check_order(OrderPageLocators.ORDER_FORMED)
+        general_page.click_order_button()
+        general_page.input_name(name)
+        general_page.input_last_name(last_name)
+        general_page.input_adress(address)
+        general_page.input_metro_station(station)
+        general_page.input_telephone_number(phone)
+        general_page.next_page()
+        general_page.select_delivery_date()
+        general_page.select_rent_period()
+        general_page.select_color()
+        general_page.input_comment(comment)
+        general_page.create_order()
+        assert general_page.check_order()
